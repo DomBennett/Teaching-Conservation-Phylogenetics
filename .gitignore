@@ -1,0 +1,6 @@
+# RStudio
+.RProj*
+*RProj
+
+# Data protection
+*obfuscat*
