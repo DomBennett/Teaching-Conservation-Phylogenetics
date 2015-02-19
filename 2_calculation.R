@@ -6,7 +6,7 @@
 library (MoreTreeTools)
 
 # READ
-input.dir <- file.path ('data', 'Orre_data')
+input.dir <- file.path ('data', 'Unova_data')
 tree <- read.tree (file.path (input.dir, 'tree.tre'))
 cmatrix <- read.csv (file.path (input.dir, 'community.csv'))
 
@@ -41,7 +41,35 @@ commplot (part.cmatrix, tree, groups = catch.zones)  # can I see any change betw
 commplot (part.cmatrix > 0, tree, groups = catch.zones)  # what about for just abundance?
 
 # PHYLOGENETIC STATS
-commPD
+source ('tools.R')  # see tools to see my permutation functions
+# 1. PD
+phy.stats <- calcComPhyMets (part.cmatrix, tree, metrics=c ('PD1'))  # PD1 is the normal PD value
+plot (phy.stats$PD1 ~ factor (catch.zones), ylab='Catch Zone', xlab='PD')  # they look different
+res.all <- permutationTest (part.cmatrix, tree=tree, metric='PD1')  # for this dataset, less PD than expected across all sites
+res1 <- permutationTest(part.cmatrix[catch.zones==1, ], tree, metric='PD1')
+res2 <- permutationTest(part.cmatrix[catch.zones==2, ], tree, metric='PD1')
+res3 <- permutationTest(part.cmatrix[catch.zones==3, ], tree, metric='PD1')
+res12 <- permutationTest (part.cmatrix[catch.zones==1 | catch.zones==2, ], tree, metric='PD1')
+res23 <- permutationTest (part.cmatrix[catch.zones==2 | catch.zones==3, ], tree, metric='PD1')
+# indicates a significant shift in community composition from 1 and 2 to 3
+# explicit test with group specification, first let's test our permutation test with random groups
+resRvR <- permutationTest (part.cmatrix, tree, groups=sample (catch.zones), metric='PD1')
+print (resRvR)  # non-significant, great!
+res1v2v3 <- permutationTest (part.cmatrix, tree, groups=catch.zones, metric='PD1')
+print (res1v2v3)  # non-significant, but threeway comparison not great as it's the mean difference between groups
+res1v2 <- permutationTest (part.cmatrix[catch.zones==1 | catch.zones==2, ], tree,
+                           groups=catch.zones[catch.zones==1 | catch.zones==2], metric='PD1')
+print (res1v2)  # non-significant, shift from 1 to 2
+res2v3 <- permutationTest (part.cmatrix[catch.zones==2 | catch.zones==3, ], tree,
+                           groups=catch.zones[catch.zones==2 | catch.zones==3], metric='PD1')
+print (res2v3)  # non-significant, we can't say there's a compositional shift from 1 to 2
+res1v3 <- permutationTest (part.cmatrix[catch.zones==1 | catch.zones==3, ], tree,
+                           groups=catch.zones[catch.zones==1 | catch.zones==3], metric='PD1')
+print (res1v3)  # significant, strong shift from 1 to 3
+# What about the other metrics?
+
+# TESTING FOR ED CHANGE
+
 
 
 
