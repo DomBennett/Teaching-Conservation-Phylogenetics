@@ -18,7 +18,6 @@ nullify <- function (cmatrix) {
   null.cmatrix
 }
 
-# SAME AS ABOVE BUT CALCED
 permutationTest <- function (cmatrix, tree, iterations=999, plot=TRUE) {
   # internals
   calcNull <- function (i) {
