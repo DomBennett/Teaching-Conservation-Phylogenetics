@@ -28,7 +28,7 @@ You will find three R scripts: `0_setup.R`, `1_manipulation.R`,
 
 I will also pass around data files separately via USB. In the meantime, make
 sure you have installed all the relevant packages by running the script
-`0_setup.R` line-by-line.
+`0_setup.R`.
 
 There are A LOT of phylogenetic packages in R -- [CRAN lists 60](http://cran.r-project.org/web/packages/available_packages_by_date.html).
 This, however, doesn’t include all the functions written to handle phylogenies
@@ -40,8 +40,8 @@ and are probably better (e.g. their S4), given the huge scope of the field of
 phylogenetics and the number of functions that already depend on ape’s class
 structure, it is unlikely that it’s going to change any time soon.
 
-If you’re still waiting for data, try running the vignettes at the end of the
-script.
+If you're waiting for the data, checkout some of the new package vignettes:
+`vignettes([PACKAGE])`
 
 ## 1. Manipulating phylogenetic trees
 We’re going to start by reading in a tree into R and exploring its structure
@@ -91,7 +91,7 @@ when plotting.)
 #### Calculating differences between communities
 * Use `drop.tip()` to create a function that takes tip labels and calculates
 the total branch length they represent. In other words, create a function that
-calculates PD.
+calculates PD. When it's done, add it to `tools.R`.
 
 ## Testing for phylogenetic change
 Now we’ve come to grips with the phylogenetic structure in R, let’s explore how
@@ -134,6 +134,8 @@ observed value lands in this null distribution we can determine the significance
 of the observed value. The important thing to remember when creating permutation
 tests for community phylogenetics, is to think about what your source pool is.
 
+* [Pseudocode](http://en.wikipedia.org/wiki/Pseudocode) what the permutation
+test needs to do first.
 * In `tools.R`, you will find the shells of two functions `nullify()` and
 `permutationTest()`. Adapt these, so `permutationTest()` can take a community
 matrix and calculate whether the observed PD is lower than expected for sites
