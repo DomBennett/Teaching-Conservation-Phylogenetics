@@ -3,6 +3,7 @@
 # Phylogenetic testing
 
 # LIBS
+source ('tools.R')
 library (MoreTreeTools)
 
 # READ
@@ -41,7 +42,6 @@ commplot (part.cmatrix, tree, groups = catch.zones)  # can I see any change betw
 commplot (part.cmatrix > 0, tree, groups = catch.zones)  # what about for just abundance?
 
 # PHYLOGENETIC STATS
-source ('tools.R')  # see tools to see my permutation functions
 # 1. PD
 phy.stats <- calcComPhyMets (part.cmatrix, tree, metrics=c ('PD1'))  # PD1 is the normal PD value
 plot (phy.stats$PD1 ~ factor (catch.zones), ylab='Catch Zone', xlab='PD')  # they look different
@@ -67,8 +67,6 @@ res1v3 <- permutationTest (part.cmatrix[catch.zones==1 | catch.zones==3, ], tree
                            groups=catch.zones[catch.zones==1 | catch.zones==3], metric='PD1')
 print (res1v3)  # significant, strong shift from 1 to 3
 # What about the other metrics?
-
-# TESTING FOR ED CHANGE
 
 
 
