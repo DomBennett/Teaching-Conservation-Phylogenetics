@@ -14,6 +14,7 @@ if (!'devtools' %in% packages) {
   install.packages ('devtools')
 }
 if (!'MoreTreeTools' %in% packages) {
+  library (devtools)
   install_github ('https://github.com/DomBennett/MoreTreeTools.git')
 }
 if (!'ape' %in% packages) {
